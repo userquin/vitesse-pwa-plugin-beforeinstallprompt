@@ -1,3 +1,8 @@
+import type {
+  ComponentCustomOptions as _ComponentCustomOptions,
+  ComponentCustomProperties as _ComponentCustomProperties,
+} from 'vue-demi'
+
 declare interface Window {
   // extend the window
 }
@@ -15,4 +20,9 @@ declare module '*.vue' {
 
   const component: DefineComponent<object, object, any>
   export default component
+}
+
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties extends _ComponentCustomProperties {}
+  interface ComponentCustomOptions extends _ComponentCustomOptions {}
 }

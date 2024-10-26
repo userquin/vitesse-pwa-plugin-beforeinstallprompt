@@ -1,3 +1,6 @@
+<script setup lang="ts">
+</script>
+
 <template>
   <main
     px-4 py-10

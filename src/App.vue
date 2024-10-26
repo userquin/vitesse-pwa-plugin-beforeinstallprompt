@@ -25,5 +25,10 @@ useHead({
 </script>
 
 <template>
-  <RouterView />
+  <div>
+    <RouterView />
+    <ClientOnly>
+      <PWABadge />
+    </ClientOnly>
+  </div>
 </template>
