@@ -1,3 +1,6 @@
+<script setup lang="ts">
+</script>
+
 <template>
   <main
     px-4 py-10
@@ -8,8 +11,5 @@
     <div mx-auto mt-5 text-center text-sm opacity-50>
       [Home Layout]
     </div>
-    <ClientOnly>
-      <PWABadge />
-    </ClientOnly>
   </main>
 </template>

@@ -1,14 +1,9 @@
 <script setup lang="ts">
-const {
-  cancelInstall,
-  showInstallPrompt,
-  install,
-} = installPwa()
 </script>
 
 <template>
   <div
-    v-if="showInstallPrompt"
+    v-if="usePwa()?.showInstallPrompt"
     class="pwa-toast"
     aria-labelledby="toast-message"
     role="alert"
@@ -19,10 +14,10 @@ const {
       </span>
     </div>
     <div class="buttons">
-      <button type="button" class="reload" @click="install()">
+      <button type="button" class="reload" @click="usePwa()?.install()">
         Install
       </button>
-      <button type="button" @click="cancelInstall()">
+      <button type="button" @click="usePwa()?.cancelInstall()">
         Don't show again
       </button>
     </div>

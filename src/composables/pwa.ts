@@ -1,4 +1,5 @@
 import { useRegisterSW } from 'virtual:pwa-register/vue'
+import type { App, UnwrapNestedRefs } from 'vue-demi'
 
 export interface UserChoice {
   outcome: 'accepted' | 'dismissed'
@@ -25,7 +26,31 @@ export interface InstallPwaOptions {
   display?: 'fullscreen' | 'standalone' | 'minimal-ui' | 'browser'
 }
 
-export function installPwa(options: InstallPwaOptions = {}) {
+export interface PwaInjection {
+  /**
+   * @deprecated use `isPWAInstalled` instead
+   */
+  isInstalled: boolean
+  isPWAInstalled: Ref<boolean>
+  showInstallPrompt: Ref<boolean>
+  cancelInstall: () => void
+  install: () => Promise<UserChoice | undefined>
+  swActivated: Ref<boolean>
+  registrationError: Ref<boolean>
+  offlineReady: Ref<boolean>
+  needRefresh: Ref<boolean>
+  updateServiceWorker: (reloadPage?: boolean | undefined) => Promise<void>
+  cancelPrompt: () => Promise<void>
+  getSWRegistration: () => ServiceWorkerRegistration | undefined
+}
+
+const pwaSymbol = Symbol.for('pwa')
+
+export function usePwa() {
+  return inject<UnwrapNestedRefs<PwaInjection>>(pwaSymbol)!
+}
+
+export function installPwa(app: App, options: InstallPwaOptions = {}) {
   const {
     installPrompt = 'vite-pwa:hide-install',
     display = 'standalone',
@@ -128,6 +153,8 @@ export function installPwa(options: InstallPwaOptions = {}) {
     cancelInstall = () => {
       deferredPrompt = undefined
       showInstallPrompt.value = false
+      offlineReady.value = false
+      needRefresh.value = false
       window.removeEventListener('beforeinstallprompt', beforeInstallPrompt)
       hideInstall.value = true
       localStorage.setItem(installPrompt!, 'true')
@@ -146,11 +173,10 @@ export function installPwa(options: InstallPwaOptions = {}) {
     }
   }
 
-  return {
+  app.provide(pwaSymbol, reactive({
     registrationError,
     swActivated,
     showInstallPrompt,
-    hideInstall,
     isInstalled,
     isPWAInstalled,
     offlineReady,
@@ -160,5 +186,5 @@ export function installPwa(options: InstallPwaOptions = {}) {
     cancelPrompt,
     install,
     cancelInstall,
-  }
+  }))
 }

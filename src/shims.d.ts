@@ -1,9 +1,7 @@
-/*
 import type {
   ComponentCustomOptions as _ComponentCustomOptions,
   ComponentCustomProperties as _ComponentCustomProperties,
 } from 'vue-demi'
-*/
 
 declare interface Window {
   // extend the window
@@ -24,7 +22,7 @@ declare module '*.vue' {
   export default component
 }
 
-/* declare module '@vue/runtime-core' {
+declare module '@vue/runtime-core' {
   interface ComponentCustomProperties extends _ComponentCustomProperties {}
   interface ComponentCustomOptions extends _ComponentCustomOptions {}
-} */
+}
