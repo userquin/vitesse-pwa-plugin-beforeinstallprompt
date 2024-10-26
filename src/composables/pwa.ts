@@ -153,8 +153,6 @@ export function installPwa(app: App, options: InstallPwaOptions = {}) {
     cancelInstall = () => {
       deferredPrompt = undefined
       showInstallPrompt.value = false
-      offlineReady.value = false
-      needRefresh.value = false
       window.removeEventListener('beforeinstallprompt', beforeInstallPrompt)
       hideInstall.value = true
       localStorage.setItem(installPrompt!, 'true')
